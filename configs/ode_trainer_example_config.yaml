@@ -1,0 +1,64 @@
+# ODE Trainer Configuration Example
+# 
+# This configuration is designed for use with the ODETrainer class in the Self-Forcing framework.
+# It includes all the parameters that ODETrainer expects to find in the config object.
+
+# Basic training configuration
+trainer: "ode"                     # Specifies the ODE trainer
+config_name: "ode_example"         # Name for this experiment in wandb
+seed: 42                          # Random seed (0 means random seed will be generated)
+mixed_precision: true             # Whether to use bfloat16 precision
+distribution_loss: "ode"          # Loss type - must be "ode" for ODE training
+
+# Logging and saving
+logdir: "/hdd/u202420081000004/models/ode_experiments"  # Directory to save checkpoints
+log_iters: 100                     # Save checkpoint every N iterations
+no_save: false                    # Whether to skip saving checkpoints
+gc_interval: 10                   # Run garbage collection every N iterations
+
+# Weights & Biases configuration
+#wandb_key: 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   # Your wandb API key
+wandb_key: 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
+wandb_entity: "chenlan"      # Your wandb username or team
+wandb_project: "ode-training"    # W        andb project name
+wandb_save_dir: "./wandb_logs"   # Directory for wandb logs
+wandb_host: "https://api.wandb.ai"
+# Model configuration
+model_name: "multi_shot"     # Name of the model architecture
+data_path: "/hdd/u202420081000004/data/ode_generate_dataset_/"      # Path to training data
+max_pair: 10000000                # Maximum number of data pairs to load
+
+# Training hyperparameters
+lr: 2.0e-06                          
+beta1: 0.9                      
+beta2: 0.999                      
+
+# Batch configuration
+batch_size: 4                    
+total_batch_size: null           
+gradient_checkpointing: true
+# Model loading
+generator_ckpt: null            
+
+# Model architecture and distribution
+sharding_strategy: hybrid_full   # FSDP sharding strategy
+generator_fsdp_wrap_strategy: size
+real_score_fsdp_wrap_strategy: size
+fake_score_fsdp_wrap_strategy: size
+text_encoder_fsdp_wrap_strategy: size  
+text_encoder_cpu_offload: false  
+
+# Visualization settings
+no_visualize: false               # Whether to skip visualization
+load_raw_video: false             # Whether to load raw video data
+
+# Additional parameters that may be used
+max_checkpoints: 5                # Maximum number of checkpoints to keep (optional)
+
+denoising_step_list:
+- 1000
+- 750
+- 500
+- 250
+
+disable_wandb: true
